@@ -28,6 +28,7 @@
             <div class="form-group">
                 <label for="key-size">Key Size:</label>
                 <select id="key-size">
+                    <option value="512">512 bits (quick for testing)</option>
                     <option value="1024">1024 bits</option>
                     <option value="2048" selected>2048 bits</option>
                     <option value="4096">4096 bits</option>
@@ -37,6 +38,7 @@
             <div class="loading-spinner" id="loading-spinner">
                 <div class="spinner"></div>
                 <p>Generating keys, please wait...</p>
+                <p><small>(This may take several seconds for larger key sizes)</small></p>
             </div>
         </section>
         
@@ -80,4 +82,3 @@
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
-

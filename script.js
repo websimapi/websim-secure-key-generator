@@ -21,23 +21,31 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingSpinner.style.display = 'block';
         generateBtn.disabled = true;
         
-        // Use setTimeout to allow the UI to update before starting the CPU-intensive key generation
-        setTimeout(() => {
-            generateKeyPair(keySize)
-                .then(keyPair => {
-                    publicKeyTextarea.value = keyPair.publicKey;
-                    privateKeyTextarea.value = keyPair.privateKey;
-                    keysSection.classList.remove('hidden');
-                    loadingSpinner.style.display = 'none';
-                    generateBtn.disabled = false;
-                })
-                .catch(error => {
-                    console.error('Error generating keys:', error);
-                    alert('Error generating keys. Please try again.');
-                    loadingSpinner.style.display = 'none';
-                    generateBtn.disabled = false;
-                });
-        }, 100);
+        try {
+            // Create new instance with proper key size
+            const crypt = new JSEncrypt({default_key_size: keySize.toString()});
+            crypt.getKey();  // Force key generation immediately
+            
+            // Get the keys
+            const publicKey = crypt.getPublicKey();
+            const privateKey = crypt.getPrivateKey();
+            
+            // Display the keys
+            publicKeyTextarea.value = publicKey;
+            privateKeyTextarea.value = privateKey;
+            
+            // Show the keys section
+            keysSection.classList.remove('hidden');
+            
+            // Hide loading spinner and enable the button
+            loadingSpinner.style.display = 'none';
+            generateBtn.disabled = false;
+        } catch (error) {
+            console.error('Error generating keys:', error);
+            alert('Error generating keys. Please try again.');
+            loadingSpinner.style.display = 'none';
+            generateBtn.disabled = false;
+        }
     });
 
     // Download buttons
@@ -60,36 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
         showCopyNotification(copyPrivateBtn);
     });
 });
-
-/**
- * Generate RSA key pair using JSEncrypt
- * @param {number} keySize - Key size in bits (1024, 2048, 4096)
- * @returns {Promise<Object>} - Object containing public and private keys
- */
-function generateKeyPair(keySize) {
-    return new Promise((resolve, reject) => {
-        try {
-            // Create new instance with proper key size
-            const crypt = new JSEncrypt({default_key_size: keySize.toString()});
-            
-            // Generate the key pair
-            const publicKey = crypt.getPublicKey();
-            const privateKey = crypt.getPrivateKey();
-            
-            if (!publicKey || !privateKey) {
-                reject(new Error('Failed to generate key pair'));
-                return;
-            }
-            
-            resolve({
-                publicKey: publicKey,
-                privateKey: privateKey
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
-}
 
 /**
  * Download key as a text file
