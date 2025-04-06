@@ -1,5 +1,4 @@
-import * as JSEncryptModule from 'jsencrypt';
-const JSEncrypt = JSEncryptModule.default || JSEncryptModule;
+import JSEncrypt from 'jsencrypt';
 
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
@@ -71,17 +70,21 @@ function generateKeyPair(keySize) {
     return new Promise((resolve, reject) => {
         try {
             // Create new instance with proper key size
-            const crypt = new JSEncrypt();
-            crypt.setKey(); // Clear any existing keys
-            crypt.getKey({b: keySize}); // Generate new key with specified size
+            const crypt = new JSEncrypt({default_key_size: keySize.toString()});
             
-            // Small delay to ensure key generation completes
-            setTimeout(() => {
-                resolve({
-                    publicKey: crypt.getPublicKey(),
-                    privateKey: crypt.getPrivateKey()
-                });
-            }, 200);
+            // Generate the key pair
+            const publicKey = crypt.getPublicKey();
+            const privateKey = crypt.getPrivateKey();
+            
+            if (!publicKey || !privateKey) {
+                reject(new Error('Failed to generate key pair'));
+                return;
+            }
+            
+            resolve({
+                publicKey: publicKey,
+                privateKey: privateKey
+            });
         } catch (error) {
             reject(error);
         }
