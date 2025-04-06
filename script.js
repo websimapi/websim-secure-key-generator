@@ -1,4 +1,5 @@
-import JSEncrypt from 'jsencrypt';
+import * as JSEncryptModule from 'jsencrypt';
+const JSEncrypt = JSEncryptModule.default || JSEncryptModule;
 
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
@@ -69,13 +70,18 @@ document.addEventListener('DOMContentLoaded', () => {
 function generateKeyPair(keySize) {
     return new Promise((resolve, reject) => {
         try {
-            const crypt = new JSEncrypt({default_key_size: keySize.toString()});
-            crypt.getKey();
+            // Create new instance with proper key size
+            const crypt = new JSEncrypt();
+            crypt.setKey(); // Clear any existing keys
+            crypt.getKey({b: keySize}); // Generate new key with specified size
             
-            resolve({
-                publicKey: crypt.getPublicKey(),
-                privateKey: crypt.getPrivateKey()
-            });
+            // Small delay to ensure key generation completes
+            setTimeout(() => {
+                resolve({
+                    publicKey: crypt.getPublicKey(),
+                    privateKey: crypt.getPrivateKey()
+                });
+            }, 200);
         } catch (error) {
             reject(error);
         }
@@ -129,4 +135,3 @@ function showCopyNotification(button) {
         button.style.backgroundColor = '';
     }, 1500);
 }
-
