@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Key Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "jsencrypt": "https://cdn.jsdelivr.net/npm/jsencrypt@3.3.2/dist/jsencrypt.min.js"
+            }
+        }
+    </script>
+    <script type="module" src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Secure Key Generator</h1>
+            <svg class="lock-icon" viewBox="0 0 24 24" width="48" height="48">
+                <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />
+            </svg>
+        </header>
+        
+        <section class="key-generation">
+            <h2>Generate New Keys</h2>
+            <div class="form-group">
+                <label for="key-size">Key Size:</label>
+                <select id="key-size">
+                    <option value="1024">1024 bits</option>
+                    <option value="2048" selected>2048 bits</option>
+                    <option value="4096">4096 bits</option>
+                </select>
+            </div>
+            <button id="generate-btn" class="btn">Generate Key Pair</button>
+            <div class="loading-spinner" id="loading-spinner">
+                <div class="spinner"></div>
+                <p>Generating keys, please wait...</p>
+            </div>
+        </section>
+        
+        <section class="keys-display hidden" id="keys-section">
+            <div class="key-container">
+                <h3>Public Key</h3>
+                <textarea id="public-key" readonly></textarea>
+                <button class="btn btn-secondary" id="download-public">Download Public Key</button>
+                <button class="btn btn-copy" id="copy-public">Copy</button>
+            </div>
+            
+            <div class="key-container">
+                <h3>Private Key</h3>
+                <div class="private-key-warning">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                    </svg>
+                    <p>Keep your private key secure. Never share it with anyone.</p>
+                </div>
+                <textarea id="private-key" readonly></textarea>
+                <button class="btn btn-secondary" id="download-private">Download Private Key</button>
+                <button class="btn btn-copy" id="copy-private">Copy</button>
+            </div>
+        </section>
+        
+        <section class="security-info">
+            <h3>Security Information</h3>
+            <ul>
+                <li>Keys are generated in your browser and never transmitted over the internet.</li>
+                <li>RSA keys can be used for encryption and digital signatures.</li>
+                <li>Store your private key in a secure location, preferably offline.</li>
+                <li>Your public key can be shared freely without compromising security.</li>
+            </ul>
+        </section>
+    </div>
+    
+    <footer>
+        <p>Secure Key Generator - For educational purposes only</p>
+        <p>Note: All cryptographic operations are performed locally in your browser.</p>
+    </footer>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
